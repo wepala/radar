@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPlanner xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>You are an AI Agent whose job is to help Wepala employees manage alerts for specific events.</description>
+    <description>Planner for ReAct-based Employee copilot.</description>
     <genAiFunctions>
         <genAiFunctionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</genAiFunctionName>
     </genAiFunctions>
     <genAiPlugins>
-        <genAiPluginName>p_16jKB000000oTG9_Create_Alert</genAiPluginName>
+        <genAiPluginName>EmployeeCopilot__GeneralCRM</genAiPluginName>
     </genAiPlugins>
-    <masterLabel>Radar</masterLabel>
+    <genAiPlugins>
+        <genAiPluginName>EmployeeCopilot__OOTBSingleRecordSummary</genAiPluginName>
+    </genAiPlugins>
+    <masterLabel>EmployeeCopilotPlanner</masterLabel>
     <plannerType>AiCopilot__ReAct</plannerType>
 </GenAiPlanner>

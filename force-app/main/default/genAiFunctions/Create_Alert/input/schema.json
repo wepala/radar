@@ -1,0 +1,35 @@
+{
+  "required" : [ "dataNeeded", "schedule", "triggerCondition" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "dataNeeded" : {
+      "title" : "dataNeeded",
+      "description" : "This is the data that must be evaluated to see if the alert should be triggered",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "schedule" : {
+      "title" : "schedule",
+      "description" : "the schedule should be converted to a crontab using the quartz format",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "triggerCondition" : {
+      "title" : "triggerCondition",
+      "description" : "what is the condition that will trigger the alert",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "userInput" : {
+      "title" : "userInput",
+      "description" : "The raw input that the user added",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

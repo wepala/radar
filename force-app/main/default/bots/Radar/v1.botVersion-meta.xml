@@ -66,6 +66,36 @@
     </conversationDefinitionPlanners>
     <conversationVariables>
         <dataType>Text</dataType>
+        <developerName>Alert_JSON</developerName>
+        <label>Alert JSON</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>objects</developerName>
+        <label>objects</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>query</developerName>
+        <label>query</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>schedule</developerName>
+        <label>schedule</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>triggerCondition</developerName>
+        <label>triggerCondition</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
         <developerName>VerifiedCustomerId</developerName>
         <label>VerifiedCustomerId</label>
         <visibility>Internal</visibility>

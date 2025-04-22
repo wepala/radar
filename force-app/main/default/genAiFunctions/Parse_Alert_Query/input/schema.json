@@ -1,0 +1,21 @@
+{
+  "required" : [ "Input:User_Query" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "Input:User_Query" : {
+      "title" : "User Query",
+      "description" : "The alert the user would like to create",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "citationMode" : {
+      "title" : "Citation Mode",
+      "description" : "Always set to \"post_generation\" ",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

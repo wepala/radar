@@ -6,11 +6,14 @@ public with sharing class CreateAlertAction {
         @InvocableVariable(Required=true Description='the cadence of the alert and when it should be evaluated')
         public String schedule; // Cron expression or friendly schedule
 
-        @InvocableVariable(Required=false Description='what is the condition that will trigger the alert')
+        @InvocableVariable(Required=true Description='what is the condition that will trigger the alert')
         public String triggerCondition; // Condition to check (e.g., "Amount > 50000")
 
-        @InvocableVariable(Required=false Description='This is the data that must be evaluated to see if the alert should be triggered')
-        public String dataNeeded; // Field names, object names, etc.
+        @InvocableVariable(Required=true Description='This is the data that must be evaluated to see if the alert should be triggered')
+        public String objects; // Field names, object names, etc.
+
+        @InvocableVariable(Required=true Description='The query that should be run to get the data that needs to be evaluated')
+        public String query; // Field names, object names, etc.
     }
 
     // Output structure if needed later
@@ -31,14 +34,10 @@ public with sharing class CreateAlertAction {
 
         for (CreateAlertRequest req : requests) {
             try {
-                // Step 1: Generate Query (for now simple placeholder logic)
-                String generatedQuery = generateSOSLQuery(req.dataNeeded);
-
-                // Step 2: Create Alert__c record
                 Alert__c alert = new Alert__c();
 //                alert.UserContext__c = UserInfo.getUserId();
                 alert.Schedule__c = req.schedule;
-                alert.Query__c = generatedQuery;
+                alert.Query__c = req.query;
                 alert.Trigger__c = req.triggerCondition;
                 insert alert;
 
@@ -63,13 +62,6 @@ public with sharing class CreateAlertAction {
 
         return responses;
     }
-
-    // Utility to generate a SOSL query from dataNeeded (placeholder)
-    private static String generateSOSLQuery(String dataNeeded) {
-        // In final version: you'd parse the fields and objects dynamically
-        return 'FIND \'' + dataNeeded + '\' RETURNING Opportunity(Name, Amount)';
-    }
-
     // Utility to schedule the alert job
     private static void scheduleAlert(Alert__c alert) {
         String jobName = 'TuneInAlert_' + alert.Id;
