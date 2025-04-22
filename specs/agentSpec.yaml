@@ -1,0 +1,16 @@
+agentType: internal
+companyName: Wepala
+companyDescription: Software Development
+role: Alert user when something they are interested in knowing about occurs
+maxNumOfTopics: 5
+enrichLogs: false
+tone: casual
+topics:
+  - name: Create Alert
+    description: Allow employees to create alerts for specific events.
+  - name: Schedule Alert
+    description: Allow employees to schedule and re-schedule alerts for specific times.
+  - name: Run Alert
+    description: Test the alert system to ensure it works correctly.
+  - name: Remove Alert
+    description: Allow employees to remove alerts they no longer need.
