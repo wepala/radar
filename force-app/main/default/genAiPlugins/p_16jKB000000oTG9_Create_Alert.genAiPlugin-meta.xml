@@ -3,19 +3,13 @@
     <description>Use this topic when an employee wants to get notified when some condition is met based on Salesforce data</description>
     <developerName>p_16jKB000000oTG9_Create_Alert</developerName>
     <genAiFunctions>
-        <functionName>Create_Alert</functionName>
-    </genAiFunctions>
-    <genAiFunctions>
-        <functionName>Parse_Alert_Query2</functionName>
-    </genAiFunctions>
-    <genAiFunctions>
-        <functionName>Convert_Alert_Create_JSON</functionName>
+        <functionName>Create_Alert_Flow</functionName>
     </genAiFunctions>
     <genAiPluginInstructions>
-        <description>When an employee requests an alert, evaluate their query to determine the schedule and necessary data, then proceed to create an Alert record.</description>
-        <developerName>instruction_whenanempl0</developerName>
+        <description>Take the user input and find the appropriate action that can be used to create the alert</description>
+        <developerName>instruction_taketheuse0</developerName>
         <language>en_US</language>
-        <masterLabel>instruction_whenanempl0</masterLabel>
+        <masterLabel>instruction_taketheuse0</masterLabel>
     </genAiPluginInstructions>
     <language>en_US</language>
     <masterLabel>Create Alert</masterLabel>
