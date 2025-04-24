@@ -1,0 +1,14 @@
+{
+  "required" : [ "promptOutputJson" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "promptOutputJson" : {
+      "title" : "promptOutputJson",
+      "description" : "The JSON output from the prompt",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

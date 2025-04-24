@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Parses user input to get the variables needed for creating an alert and saves the output to the &quot;query&quot; variable in the session then call the action &quot;Convert Alert Create JSON&quot;</description>
+    <invocationTarget>Parse_Alert_Query</invocationTarget>
+    <invocationTargetType>generatePromptResponse</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <mappingAttributes>
+        <label>promptResponse</label>
+        <name>output_promptResponse</name>
+        <parameterName>promptResponse</parameterName>
+        <parameterType>output</parameterType>
+    </mappingAttributes>
+    <masterLabel>Parse Alert Query2</masterLabel>
+</GenAiFunction>

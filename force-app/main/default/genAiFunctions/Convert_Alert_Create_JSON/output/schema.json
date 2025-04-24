@@ -1,0 +1,42 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "objects" : {
+      "title" : "objects",
+      "description" : "This is the data that must be evaluated to see if the alert should be triggered",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "query" : {
+      "title" : "query",
+      "description" : "The query that should be run to get the data that needs to be evaluated",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "schedule" : {
+      "title" : "schedule",
+      "description" : "The cadence of the alert and when it should be evaluated",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "triggerCondition" : {
+      "title" : "triggerCondition",
+      "description" : "What is the condition that will trigger the alert",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -1,0 +1,42 @@
+{
+  "required" : [ "userInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "alertJSON" : {
+      "title" : "alertJSON",
+      "description" : "JSON response of alerts",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "query" : {
+      "title" : "query",
+      "description" : "SOSL Query to run",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "schedule" : {
+      "title" : "schedule",
+      "description" : "The cadence to run the action",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "triggeCondition" : {
+      "title" : "triggeCondition",
+      "description" : "Trigger Condition",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "userInput" : {
+      "title" : "userInput",
+      "description" : "What the user wants to monitor",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

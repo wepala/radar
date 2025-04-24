@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Use the value of the &quot;query&quot; custom variable in the session to &quot;trigger&quot; and &quot;schedule&quot; to the session then call the &quot;Create Alert Action&quot;</description>
+    <invocationTarget>ConvertAlertCreateJSONAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <mappingAttributes>
+        <label>objects</label>
+        <name>output_objects</name>
+        <parameterName>objects</parameterName>
+        <parameterType>output</parameterType>
+    </mappingAttributes>
+    <mappingAttributes>
+        <label>query</label>
+        <name>output_query</name>
+        <parameterName>query</parameterName>
+        <parameterType>output</parameterType>
+    </mappingAttributes>
+    <mappingAttributes>
+        <label>schedule</label>
+        <name>output_schedule</name>
+        <parameterName>schedule</parameterName>
+        <parameterType>output</parameterType>
+    </mappingAttributes>
+    <mappingAttributes>
+        <label>triggerCondition</label>
+        <name>output_triggerCondition</name>
+        <parameterName>triggerCondition</parameterName>
+        <parameterType>output</parameterType>
+    </mappingAttributes>
+    <mappingAttributes>
+        <label>promptOutputJson</label>
+        <name>input_promptOutputJson</name>
+        <parameterName>promptOutputJson</parameterName>
+        <parameterType>input</parameterType>
+    </mappingAttributes>
+    <masterLabel>Convert Alert Create JSON</masterLabel>
+</GenAiFunction>
