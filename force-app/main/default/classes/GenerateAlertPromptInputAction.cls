@@ -1,53 +1,53 @@
 public with sharing class GenerateAlertPromptInputAction {
 
-    public class AlertRequest {
-        @InvocableVariable(Required=true)
-        public Id alertId; // Id of the Alert__c record
+    public class AlertCollectionRequest {
+        @InvocableVariable(required=true)
+        public List<Alert__c> alerts;
     }
 
-    public class PromptInput {
+    public class PromptInputResponse {
         @InvocableVariable
-        public String jsonInput; // The JSON to feed into the LLM prompt
+        public List<String> inputs;
     }
 
-    @InvocableMethod(Label='Generate Prompt Input JSON' Description='Generates JSON input for alert evaluation from an Alert__c record')
-    public static List<PromptInput> generate(List<AlertRequest> requests) {
-        List<PromptInput> responses = new List<PromptInput>();
+    @InvocableMethod(label='Generate Prompt Input JSON' description='Generates JSON input for alert evaluation from a list of Alert__c records')
+    public static List<PromptInputResponse> generate(List<AlertCollectionRequest> requests) {
+        List<PromptInputResponse> responses = new List<PromptInputResponse>();
 
-        for (AlertRequest request : requests) {
-            Alert__c alert = [
-                    SELECT Name, Query__c, Trigger__c
-                    FROM Alert__c
-                    WHERE Id = :request.alertId
-                    LIMIT 1
-            ];
+        if (requests.isEmpty() || requests[0].alerts == null) {
+            return responses;
+        }
 
+        PromptInputResponse response = new PromptInputResponse();
+        response.inputs = new List<String>();
+
+        for (Alert__c alert : requests[0].alerts) {
             // Run dynamic SOQL
             List<SObject> results;
             try {
+                System.debug('[Radar] ' + alert.Query__c);
                 results = Database.query(alert.Query__c);
             } catch (Exception e) {
-                throw new AuraHandledException('Failed to execute query: ' + e.getMessage());
+                System.debug(LoggingLevel.ERROR, '[Radar] Error running query ' + alert.Query__c + ' ' + e.getMessage());
+                throw new AuraHandledException('Error running query for alert ' + alert.Name + ': ' + e.getMessage());
             }
 
-            // Serialize records to a list of maps for easy JSON
             List<Object> recordData = new List<Object>();
             for (SObject sObj : results) {
                 recordData.add(sObj.getPopulatedFieldsAsMap());
             }
 
-            // Add triggerCondition and currentDate
             Map<String, Object> promptJson = new Map<String, Object>();
             promptJson.put('records', recordData);
             promptJson.put('triggerCondition', alert.Trigger__c);
             promptJson.put('currentDate', Date.today().format());
+            String jsonInput = JSON.serialize(promptJson);
 
-            PromptInput input = new PromptInput();
-            input.jsonInput = JSON.serialize(promptJson);
+            response.inputs.add(jsonInput);
 
-            responses.add(input);
         }
 
+        responses.add(response);
         return responses;
     }
 }
