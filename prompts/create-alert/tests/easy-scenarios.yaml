@@ -1,0 +1,107 @@
+- vars:
+    userInput: Alert me if we get fewer than 10 leads this week.
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - trigger
+          - schedule
+          - query
+        properties:
+          trigger:
+            type: string
+          schedule:
+            type: string
+          query:
+            type: string
+
+- vars:
+    userInput: Let me know when a new lead comes in from ACME
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - trigger
+          - schedule
+          - query
+        properties:
+          trigger:
+            type: string
+          schedule:
+            type: string
+          query:
+            type: string
+
+- vars:
+    userInput: Notify me if no one followed up with a new lead within 24 hours.
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - trigger
+          - schedule
+          - query
+        properties:
+          trigger:
+            type: string
+          schedule:
+            type: string
+          query:
+            type: string
+
+- vars:
+    userInput: Remind me if I haven't contacted Brian in 3 days.
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - trigger
+          - schedule
+          - query
+        properties:
+          trigger:
+            type: string
+          schedule:
+            type: string
+          query:
+            type: string
+
+- vars:
+    userInput: Tell me when a deal moves to the 'Negotiation' stage.
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - trigger
+          - schedule
+          - query
+        properties:
+          trigger:
+            type: string
+          schedule:
+            type: string
+          query:
+            type: string
+
+- vars:
+    userInput: Ping me if any deals have been in the same stage for over 2 weeks.
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - trigger
+          - schedule
+          - query
+        properties:
+          trigger:
+            type: string
+          schedule:
+            type: string
+          query:
+            type: string

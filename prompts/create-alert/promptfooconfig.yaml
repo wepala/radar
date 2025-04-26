@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+# Learn more about building a configuration: https://promptfoo.dev/docs/configuration/guide
+
+description: "My eval"
+
+prompts:
+  - file://default.js
+  
+
+providers:
+  - "openai:gpt-4o-mini"
+#  - "openai:gpt-4o"
+  
+
+tests:
+  - file://tests/easy-scenarios.yaml
