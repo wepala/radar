@@ -14,12 +14,23 @@ public with sharing class ParseAlertResponseJSONAction {
     public static List<AlertResponse> parseJson(List<AlertRequest> requests) {
         List<AlertResponse> results = new List<AlertResponse>();
 
+        // Get the Id for our custom notification type
+        CustomNotificationType notificationType =
+        [SELECT Id, DeveloperName
+        FROM CustomNotificationType
+        WHERE DeveloperName='Basic_Alert'];
+
+
         for (AlertRequest req : requests) {
+            //setup a response for each request
+            AlertResponse resp = new AlertResponse();
+            resp.runs = new List<AlertRun__c>();
 
             for (AlertRun__c run : req.runs) {
                 if (String.isBlank(run.LLM_Response__c)) {
                     System.debug(LoggingLevel.ERROR,'[Radar] AI Response is null or empty');
-                    throw new AuraHandledException('AI Response is null or empty');
+                    resp.runs.add(run);
+                    continue;
                 }
 
                 try {
@@ -29,8 +40,7 @@ public with sharing class ParseAlertResponseJSONAction {
                     }
                     Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(run.LLM_Response__c);
 
-                    AlertResponse resp = new AlertResponse();
-                    resp.runs = new List<AlertRun__c>();
+
                     run.Triggered__c = (Boolean) jsonMap.get('alert');
                     String message = (String) jsonMap.get('message');
 
@@ -43,6 +53,7 @@ public with sharing class ParseAlertResponseJSONAction {
                             //get alert record so we can get the owner
                             Alert__c alert = [SELECT Id, OwnerId FROM Alert__c WHERE Id = :run.Alert__c LIMIT 1];
                             notification.setTargetId(run.Id);
+                            notification.setNotificationTypeId(notificationType.Id);
 
                             // Send to user (Set<String>)
 
@@ -59,12 +70,12 @@ public with sharing class ParseAlertResponseJSONAction {
                     update run;
                     resp.runs.add(run);
 
-                    results.add(resp);
+
                 } catch (Exception e) {
-                    throw new AuraHandledException('Failed to parse JSON: ' + e.getMessage());
+                    System.debug(LoggingLevel.ERROR,'[Radar] AI Response not processed: ' + e.getMessage());
                 }
             }
-
+            results.add(resp);
 
         }
 
