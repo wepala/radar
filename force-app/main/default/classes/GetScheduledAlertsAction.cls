@@ -8,7 +8,7 @@ public with sharing class GetScheduledAlertsAction {
     public static List<ScheduledAlertResponse> getAlerts()  {
         try {
             List<Alert__c> alerts = [
-                    SELECT Id, Name, Trigger__c, Query__c
+                    SELECT Id, Name, Trigger__c, Query__c, Last_Run__c
                     FROM Alert__c
             ];
             List<ScheduledAlertResponse> responses = new List<ScheduledAlertResponse>();
@@ -33,7 +33,8 @@ public with sharing class GetScheduledAlertsAction {
                     if (previousRun == null) {
                         previousRun = DateTime.now().addDays(-30);//default to 30 days prior
                     }
-                    String query = alert.Query__c.replace('SINCELAST_RUN', previousRun.format());
+                    System.debug('[Radar] Previous run date: ' + previousRun);
+                    String query = alert.Query__c.replace('SINCELAST_RUN', ':previousRun');
                     System.debug('[Radar] ' + query);
                     results = Database.query(query);
                 } catch (Exception e) {
