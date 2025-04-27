@@ -1,0 +1,30 @@
+- vars:
+    userInput: |
+      {
+        "records":[
+          {
+            "id": 1,
+            "name": "Lead A",
+            "status": "New"
+          },
+          {
+            "id": 2,
+            "name": "Lead B",
+            "status": "Contacted"
+          }
+        ],
+        "triggerCondition": "Leads less than 10",
+        "currentDate": "2025-04-27"
+      }
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          - alert
+          - message
+        properties:
+          alert:
+            type: boolean
+          message:
+            type: string

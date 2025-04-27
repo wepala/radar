@@ -31,18 +31,19 @@ Your response:
 
 Another example:
  User input:
- "Alert me if any Opportunities worth more than $50,000 are created every Monday."
+ "Tell me when a deal moves to the 'Negotiation' stage."
 Your response:
 
 {
- "trigger": "New Opportunities over $50,000 created",
+ "trigger": "Deal moves to 'Negotiation' stage",
  "schedule": "immediate",
  "objects": "Opportunity",
- "query": "SELECT Id, Amount, CreatedDate FROM Opportunity WHERE Amount > 50000 AND CreatedDate = LAST_N_DAYS:1"
+ "query": "SELECT Id, StageName FROM Opportunity WHERE StageName = 'Negotiation' AND LastModifiedDate > SINCELAST_RUN"
 }
 
-Always assume the query needs to use date filters based on the schedule (e.g., CreatedDate = TODAY for daily, CreatedDate = THIS_WEEK for weekly checks, etc.).
- If the object name is unclear, make a best guess and output it. Do NOT wrap the response in triple backticks. Always confirm that the query is a valid SOQL query and that the objects are Salesforce objects. If the user input is not clear, ask for clarification.
+* Always assume the query needs to use date filters based on the schedule (e.g., CreatedDate = TODAY for daily, CreatedDate = THIS_WEEK for weekly checks, etc.).
+* For triggers that check if a record was created or updated if a specific timeframe has passed, use SINCELAST_RUN for the query (it will be replaced with the last run time).
+* If the object name is unclear, make a best guess and output it. Do NOT wrap the response in triple backticks. Always confirm that the query is a valid SOQL query and that the objects are Salesforce objects. If the user input is not clear, ask for clarification.
 
 Now try:
 
