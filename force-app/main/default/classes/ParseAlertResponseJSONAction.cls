@@ -55,9 +55,9 @@ public with sharing class ParseAlertResponseJSONAction {
                             notification.setTargetId(run.Id);
                             notification.setNotificationTypeId(notificationType.Id);
 
-                            // Send to user (Set<String>)
-
                             notification.send(new Set<String>{ alert.OwnerId });
+                            // Send to user (Set<String>)
+                            System.debug('[Radar] Sending notification: ' + message + ' to user: ' + alert.OwnerId);
 
                         } catch (Exception ex) {
                             System.debug('Error sending notification: ' + ex.getMessage());

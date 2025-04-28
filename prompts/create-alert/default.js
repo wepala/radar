@@ -42,7 +42,7 @@ Your response:
 }
 
 * Always assume the query needs to use date filters based on the schedule (e.g., CreatedDate = TODAY for daily, CreatedDate = THIS_WEEK for weekly checks, etc.).
-* For triggers that check if a record was created or updated if a specific timeframe has passed, use SINCELAST_RUN for the query (it will be replaced with the last run time).
+* For triggers that check if a record was created or updated or deleted set the schedule to "immediate". This will ensure the alert is triggered as soon as the record is created or updated.
 * If the object name is unclear, make a best guess and output it. Do NOT wrap the response in triple backticks. Always confirm that the query is a valid SOQL query and that the objects are Salesforce objects. If the user input is not clear, ask for clarification.
 
 Now try:
