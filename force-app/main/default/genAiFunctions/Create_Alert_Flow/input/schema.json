@@ -2,10 +2,21 @@
   "required" : [ "userInput" ],
   "unevaluatedProperties" : false,
   "properties" : {
-    "recipient" : {
-      "title" : "recipientId",
-      "description" : "Recipient Id",
+    "MessageEndUser" : {
+      "title" : "MessageEndUser",
+      "description" : "Use the User ID as the user that is creating the alert",
       "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "Recipients" : {
+      "title" : "Recipients",
+      "description" : "Alert recipients",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "lightning__textType"
+      },
+      "lightning:type" : "lightning__listType",
       "lightning:isPII" : false,
       "copilotAction:isUserInput" : false
     },
@@ -39,7 +50,7 @@
     },
     "userInput" : {
       "title" : "userInput",
-      "description" : "What the user wants to monitor",
+      "description" : "Exactly what the user entered in the chat. Do not edit or paraphrase",
       "lightning:type" : "lightning__textType",
       "lightning:isPII" : false,
       "copilotAction:isUserInput" : true

@@ -1,6 +1,28 @@
 {
   "unevaluatedProperties" : false,
   "properties" : {
+    "MessageEndUser" : {
+      "title" : "MessageEndUser",
+      "description" : "The user that triggered the workflow",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "Recipients" : {
+      "title" : "Recipients",
+      "description" : "Notification recipients",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "lightning__textType"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
     "alertJSON" : {
       "title" : "alertJSON",
       "description" : "JSON response of alerts",

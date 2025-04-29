@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Take the user&apos;s input and crate an alert that monitors data and triggers an alert if the conditions are met</description>
+    <description>Take the user&apos;s input and the user&apos;s id and creates an alert that monitors data and triggers an alert if the conditions are met</description>
     <invocationTarget>Create_Alert_Flow</invocationTarget>
     <invocationTargetType>flow</invocationTargetType>
     <isConfirmationRequired>false</isConfirmationRequired>
+    <mappingAttributes>
+        <label>MessageEndUser</label>
+        <name>input_MessageEndUser</name>
+        <parameterName>MessageEndUser</parameterName>
+        <parameterType>input</parameterType>
+    </mappingAttributes>
     <masterLabel>Create Alert Flow</masterLabel>
 </GenAiFunction>
