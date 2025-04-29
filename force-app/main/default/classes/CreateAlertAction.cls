@@ -14,6 +14,9 @@ public with sharing class CreateAlertAction {
 
         @InvocableVariable(Required=true Description='The query that should be run to get the data that needs to be evaluated')
         public String query; // Field names, object names, etc.
+
+        @InvocableVariable(Required=true Description='The users that should be notified')
+        public List<String> recipientId; // The users that should be notified
     }
 
     // Output structure if needed later
@@ -41,12 +44,23 @@ public with sharing class CreateAlertAction {
                 alert.Trigger__c = req.triggerCondition;
                 insert alert;
 
-                // Step 3: Schedule the alert if needed
-                if (req.schedule != null && req.schedule != '') {
-                    scheduleAlert(alert);
+                // Create one or more AlertRecipient__c records
+                List<AlertRecipient__c> recipients = new List<AlertRecipient__c>();
+                // Loop through the recipient IDs and create AlertRecipient__c records
+                for (Id userId : req.recipientId) {
+                    System.debug('Adding recipient: ' + userId);
+                    recipients.add(new AlertRecipient__c(
+                            Alert__c = alert.Id,
+                            Recipient__c = userId
+                    ));
                 }
 
-                // Step 4: Build successful response
+                // Insert all recipients at once
+                if (!recipients.isEmpty()) {
+                    insert recipients;
+                }
+
+
                 CreateAlertResponse response = new CreateAlertResponse();
                 response.alertId = alert.Id;
                 response.message = 'Alert created and scheduled successfully.';
@@ -61,12 +75,5 @@ public with sharing class CreateAlertAction {
         }
 
         return responses;
-    }
-    // Utility to schedule the alert job
-    private static void scheduleAlert(Alert__c alert) {
-        String jobName = 'TuneInAlert_' + alert.Id;
-
-        // TuneInScheduler must implement Schedulable
-//        System.schedule(jobName, alert.Schedule__c, new TuneInScheduler(alert.Id));
     }
 }

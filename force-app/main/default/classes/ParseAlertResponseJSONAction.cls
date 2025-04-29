@@ -46,19 +46,39 @@ public with sharing class ParseAlertResponseJSONAction {
 
                     if (run.Triggered__c) {
                         try {
+                            //get alert record so we can get the owner
+                            Alert__c alert = [SELECT Id, Name FROM Alert__c WHERE Id = :run.Alert__c LIMIT 1];
+                            //get alert recipients
+                            List<AlertRecipient__c> recipients = [SELECT Id, Recipient__c FROM AlertRecipient__c WHERE Alert__c = :run.Alert__c];
+                            List<String> recipientIds = new List<String>();
+                            for (AlertRecipient__c recipient : recipients) {
+                                recipientIds.add(recipient.Recipient__c);
+                            }
+
                             Messaging.CustomNotification notification = new Messaging.CustomNotification();
                             notification.setTitle('New Alert');
                             notification.setBody(message);
 
-                            //get alert record so we can get the owner
-                            Alert__c alert = [SELECT Id, OwnerId FROM Alert__c WHERE Id = :run.Alert__c LIMIT 1];
+                            if (run.RelatedRecord__c != null) {
+                                notification.setTargetId(run.RelatedRecord__c);
+                            }
+
                             notification.setTargetId(run.Id);
                             notification.setNotificationTypeId(notificationType.Id);
 
-                            notification.send(new Set<String>{ alert.OwnerId });
+                            notification.send(recipientIds);
                             // Send to user (Set<String>)
-                            System.debug('[Radar] Sending notification: ' + message + ' to user: ' + alert.OwnerId);
+                            System.debug('[Radar] Sending notification: ' + message + ' notification id: '+notificationType.Id);
 
+                            //send as email as well
+//                            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+//                            email.setToAddresses(new String[]{'butch@wepala.com'});
+//                            email.setSubject('New Alert: ' + alert.Name);
+//                            email.setPlainTextBody(message);
+//                            email.setHtmlBody(message);
+//                            Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ email });
+//
+//                            System.debug('[Radar] Sending email: ' + message + ' to user: butch@wepala.com');
                         } catch (Exception ex) {
                             System.debug('Error sending notification: ' + ex.getMessage());
                             // Optional: log error or rethrow

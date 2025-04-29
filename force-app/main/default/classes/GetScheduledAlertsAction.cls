@@ -3,6 +3,8 @@ public with sharing class GetScheduledAlertsAction {
     public class AlertRequest {
         @InvocableVariable(Required=true)
         public List<Alert__c> alerts; // JSON string from LLM response
+        @InvocableVariable(Description='The record that triggered the alert')
+        public String triggerRecordId; // The record that triggered the alert
     }
 
     public class ScheduledAlertResponse {
@@ -35,6 +37,9 @@ public with sharing class GetScheduledAlertsAction {
                     alertRun.Alert__c = alert.Id;
                     alertRun.Name = alert.Name;
                     alertRun.Start_Time__c = DateTime.now();
+                    if (String.isNotBlank(req.triggerRecordId)) {
+                        alertRun.RelatedRecord__c = req.triggerRecordId;
+                    }
 
                     // Run dynamic SOQL
                     List<SObject> results;

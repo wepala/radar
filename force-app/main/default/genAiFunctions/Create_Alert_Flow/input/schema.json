@@ -2,6 +2,13 @@
   "required" : [ "userInput" ],
   "unevaluatedProperties" : false,
   "properties" : {
+    "recipient" : {
+      "title" : "recipientId",
+      "description" : "Recipient Id",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
     "alertJSON" : {
       "title" : "alertJSON",
       "description" : "JSON response of alerts",
