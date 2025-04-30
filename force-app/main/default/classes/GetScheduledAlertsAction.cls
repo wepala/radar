@@ -41,26 +41,35 @@ public with sharing class GetScheduledAlertsAction {
                         alertRun.RelatedRecord__c = req.triggerRecordId;
                     }
 
-                    // Run dynamic SOQL
-                    List<SObject> results;
-                    try {
-                        //replace SINCELAST_RUN with the previous run date in the query if it exists
-                        if (previousRun == null) {
-                            previousRun = DateTime.now().addDays(-30);//default to 30 days prior
+                    List<Object> recordData = new List<Object>();
+
+                    String tquery = alert.Query__c.replace('SINCELAST_RUN', ':previousRun');
+                    //split query on
+                    List<String> queryStrings = tquery.split('\\|\\|\\|');
+                    for (String query : queryStrings) {
+                        // Run dynamic SOQL
+                        List<SObject> results;
+                        try {
+                            //replace SINCELAST_RUN with the previous run date in the query if it exists
+                            if (previousRun == null) {
+                                previousRun = DateTime.now().addDays(-30);//default to 30 days prior
+                            }
+                            System.debug('[Radar] Previous run date: ' + previousRun);
+
+                            System.debug('[Radar] ' + query);
+                            results = Database.query(query);
+                        } catch (Exception e) {
+                            System.debug(LoggingLevel.ERROR, '[Radar] Error running query ' + alert.Query__c + ' ' + e.getMessage());
+                            throw new AuraHandledException('Error running query for alert ' + alert.Name + ': ' + e.getMessage());
                         }
-                        System.debug('[Radar] Previous run date: ' + previousRun);
-                        String query = alert.Query__c.replace('SINCELAST_RUN', ':previousRun');
-                        System.debug('[Radar] ' + query);
-                        results = Database.query(query);
-                    } catch (Exception e) {
-                        System.debug(LoggingLevel.ERROR, '[Radar] Error running query ' + alert.Query__c + ' ' + e.getMessage());
-                        throw new AuraHandledException('Error running query for alert ' + alert.Name + ': ' + e.getMessage());
+
+
+                        for (SObject sObj : results) {
+                            recordData.add(sObj.getPopulatedFieldsAsMap());
+                        }
                     }
 
-                    List<Object> recordData = new List<Object>();
-                    for (SObject sObj : results) {
-                        recordData.add(sObj.getPopulatedFieldsAsMap());
-                    }
+
 
                     Map<String, Object> promptJson = new Map<String, Object>();
                     promptJson.put('previousRun', previousRun.format());
