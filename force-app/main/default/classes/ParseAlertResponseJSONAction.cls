@@ -49,7 +49,15 @@ public with sharing class ParseAlertResponseJSONAction {
                     if (run.Triggered__c) {
                         try {
                             //get alert record so we can get the owner
-                            Alert__c alert = [SELECT Id, Name FROM Alert__c WHERE Id = :run.Alert__c LIMIT 1];
+                            Alert__c alert = [SELECT Id, Name,Pause_Start__c,Pause_End__c FROM Alert__c WHERE Id = :run.Alert__c LIMIT 1];
+                            //if the alert is paused then skip. An alert is paused if the current time is greater than the Pause_Start__c but less than the Pause_End__c
+                            if (alert.Pause_Start__c != null && alert.Pause_End__c != null) {
+                                if (DateTime.now() >= alert.Pause_Start__c && DateTime.now() <= alert.Pause_End__c) {
+                                    System.debug(LoggingLevel.ERROR,'[Radar] Alert is paused. Skipping notification.');
+                                    resp.runs.add(run);
+                                    continue;
+                                }
+                            }
                             //get alert recipients
                             List<AlertRecipient__c> recipients = [SELECT Id, Recipient__c FROM AlertRecipient__c WHERE Alert__c = :run.Alert__c];
                             Set<String> recipientIds = new Set<String>();

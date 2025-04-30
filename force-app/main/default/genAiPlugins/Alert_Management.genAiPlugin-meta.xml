@@ -11,6 +11,9 @@
     <genAiFunctions>
         <functionName>Create_Alert_Flow_Simplified</functionName>
     </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Pause_Alerts</functionName>
+    </genAiFunctions>
     <genAiPluginInstructions>
         <description>Take the user input and find the appropriate action that can be used to create the alert</description>
         <developerName>instruction_taketheuse0</developerName>
