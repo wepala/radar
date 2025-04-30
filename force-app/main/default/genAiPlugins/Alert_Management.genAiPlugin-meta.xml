@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aiPluginUtterances>
+        <developerName>utterance_notifymywh0</developerName>
+        <language>en_US</language>
+        <masterLabel>utterance_notifymywh0</masterLabel>
+        <utterance>Notify my when a new case is created</utterance>
+    </aiPluginUtterances>
+    <description>This topic handles requests related to employee notifications based on specific conditions in Salesforce data.</description>
+    <developerName>Alert_Management</developerName>
+    <genAiFunctions>
+        <functionName>Create_Alert_Flow_Simplified</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Take the user input and find the appropriate action that can be used to create the alert</description>
+        <developerName>instruction_taketheuse0</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_taketheuse0</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Alert Management</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to evaluate the user&apos;s query, identify the schedule they want, the data needed, and create an Alert record.</scope>
+</GenAiPlugin>

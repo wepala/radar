@@ -7,6 +7,9 @@
     <genAiPlugins>
         <genAiPluginName>Alert_Management</genAiPluginName>
     </genAiPlugins>
+    <genAiPlugins>
+        <genAiPluginName>Alert_Recommendation_Based_on_Objective</genAiPluginName>
+    </genAiPlugins>
     <masterLabel>EmployeeCopilotPlanner</masterLabel>
     <plannerType>AiCopilot__ReAct</plannerType>
 </GenAiPlanner>
