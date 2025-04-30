@@ -1,22 +1,8 @@
 public with sharing class CreateAlertAction {
 
-    // Input structure for the invocable method
     public class CreateAlertRequest {
-
-        @InvocableVariable(Required=true Description='the cadence of the alert and when it should be evaluated')
-        public String schedule; // Cron expression or friendly schedule
-
-        @InvocableVariable(Required=true Description='what is the condition that will trigger the alert')
-        public String triggerCondition; // Condition to check (e.g., "Amount > 50000")
-
-        @InvocableVariable(Required=true Description='This is the data that must be evaluated to see if the alert should be triggered')
-        public String objects; // Field names, object names, etc.
-
-        @InvocableVariable(Required=true Description='The query that should be run to get the data that needs to be evaluated')
-        public String query; // Field names, object names, etc.
-
-        @InvocableVariable(Required=true Description='The users that should be notified')
-        public List<String> recipientId; // The users that should be notified
+        @InvocableVariable(Required=true Description='The JSON output from the prompt')
+        public String promptOutputJson; // The raw JSON returned from the prompt
     }
 
     // Output structure if needed later
@@ -36,22 +22,77 @@ public with sharing class CreateAlertAction {
         List<CreateAlertResponse> responses = new List<CreateAlertResponse>();
 
         for (CreateAlertRequest req : requests) {
+            if (String.isBlank(req.promptOutputJson)) {
+                throw new AuraHandledException('Prompt output JSON cannot be blank.');
+            }
+
+
             try {
+                // Parse the JSON into a generic object
+                Map<String, Object> parsedJson = (Map<String, Object>) JSON.deserializeUntyped(req.promptOutputJson);
+                String schedule = (String) parsedJson.get('schedule');
+                String triggerCondition = (String) parsedJson.get('trigger');
+                String query = (String) parsedJson.get('query');
+                String objects;
+                //if there is a sendEmail field in the JSON, set it to true or false
+                Boolean sendEmail = false;
+
+                if (parsedJson.containsKey('sendEmail') && parsedJson.get('sendEmail') != null) {
+                    Object value = parsedJson.get('sendEmail');
+                    if (value instanceof Boolean) {
+                        sendEmail = (Boolean) value;
+                    } else if (value instanceof String) {
+                        sendEmail = ((String) value).toLowerCase() == 'true';
+                    }
+                }
+
+                // Handle objects array
+                Object objectsRaw = parsedJson.get('objects');
+                if (objectsRaw != null && objectsRaw instanceof List<Object>) {
+                    List<Object> objectsList = (List<Object>) objectsRaw;
+                    List<String> stringList = new List<String>();
+                    for (Object o : objectsList) {
+                        stringList.add((String) o);
+                    }
+                    objects = String.join(stringList, ',');
+                } else {
+                    objects = null;
+                }
+
+                String notificationEmail = null;
+                if (parsedJson.containsKey('notificationEmail') && parsedJson.get('notificationEmail') != null) {
+                    notificationEmail = (String) parsedJson.get('notificationEmail');
+                }
+
+                //TODO: Add logic to parse recipient names and resolve them to IDs
+                List<Id> recipientIds = new List<Id>();
+
+                // Map fields
                 Alert__c alert = new Alert__c();
-//                alert.UserContext__c = UserInfo.getUserId();
-                alert.Schedule__c = req.schedule;
-                alert.Query__c = req.query;
-                alert.Trigger__c = req.triggerCondition;
+                alert.Schedule__c = schedule;
+                alert.Query__c = query;
+                alert.Trigger__c = triggerCondition;
+                alert.Send_Email__c = sendEmail;
+                alert.Objects__c = objects;
+                alert.Notification_Email__c = notificationEmail;
                 insert alert;
 
                 // Create one or more AlertRecipient__c records
                 List<AlertRecipient__c> recipients = new List<AlertRecipient__c>();
                 // Loop through the recipient IDs and create AlertRecipient__c records
-                for (Id userId : req.recipientId) {
+                for (Id userId : recipientIds) {
                     System.debug('Adding recipient: ' + userId);
                     recipients.add(new AlertRecipient__c(
                             Alert__c = alert.Id,
                             Recipient__c = userId
+                    ));
+                }
+
+                //if the recipient list is empty use the User in the context
+                if (recipients.isEmpty()) {
+                    recipients.add(new AlertRecipient__c(
+                            Alert__c = alert.Id,
+                            Recipient__c = UserInfo.getUserId()
                     ));
                 }
 
@@ -62,8 +103,9 @@ public with sharing class CreateAlertAction {
 
 
                 CreateAlertResponse response = new CreateAlertResponse();
+                String link = URL.getOrgDomainUrl().toExternalForm() + '/'+ alert.Id;
                 response.alertId = alert.Id;
-                response.message = 'Alert created and scheduled successfully.';
+                response.message = '\uD83D\uDD14 <a href="'+link+'" target="_blank">View Alert</a>';
                 responses.add(response);
             } catch (Exception e) {
                 // Handle failure and send back error if necessary

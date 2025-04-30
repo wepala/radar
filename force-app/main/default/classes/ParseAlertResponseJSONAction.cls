@@ -3,6 +3,8 @@ public with sharing class ParseAlertResponseJSONAction {
     public class AlertRequest {
         @InvocableVariable(Required=true)
         public List<AlertRun__c> runs; // JSON string from LLM response
+        @InvocableVariable(Description='The object that triggered the alert')
+        public String recordId = null; // Optional record ID of the object that triggered the alert
     }
 
     public class AlertResponse {
@@ -50,7 +52,7 @@ public with sharing class ParseAlertResponseJSONAction {
                             Alert__c alert = [SELECT Id, Name FROM Alert__c WHERE Id = :run.Alert__c LIMIT 1];
                             //get alert recipients
                             List<AlertRecipient__c> recipients = [SELECT Id, Recipient__c FROM AlertRecipient__c WHERE Alert__c = :run.Alert__c];
-                            List<String> recipientIds = new List<String>();
+                            Set<String> recipientIds = new Set<String>();
                             for (AlertRecipient__c recipient : recipients) {
                                 recipientIds.add(recipient.Recipient__c);
                             }
@@ -59,11 +61,10 @@ public with sharing class ParseAlertResponseJSONAction {
                             notification.setTitle('New Alert');
                             notification.setBody(message);
 
-                            if (run.RelatedRecord__c != null) {
-                                notification.setTargetId(run.RelatedRecord__c);
+                            if (req.recordId != null) {
+                                notification.setTargetId(req.recordId);
                             }
 
-                            notification.setTargetId(run.Id);
                             notification.setNotificationTypeId(notificationType.Id);
 
                             notification.send(recipientIds);
