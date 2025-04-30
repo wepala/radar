@@ -8,6 +8,9 @@
     </aiPluginUtterances>
     <description>You are an assistant who helps businesses stay on track with their goals by recommending alerts to monitor key metrics. The user provides a business objective.</description>
     <developerName>Alert_Recommendation_Based_on_Objective</developerName>
+    <genAiFunctions>
+        <functionName>Create_Recommended_Alerts</functionName>
+    </genAiFunctions>
     <genAiPluginInstructions>
         <description>Identify the core metric(s) related to that objective.</description>
         <developerName>instruction_identifyth0</developerName>
@@ -39,16 +42,22 @@
         <masterLabel>instruction_recommenda4</masterLabel>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>The alerts should be from a first person perspective and identify specific numbers (e.g. &quot;Let me know when we get to 15K in sales&quot;)</description>
-        <developerName>instruction_thealertss5</developerName>
+        <description>Recommendations should be based on using Salesforce data</description>
+        <developerName>instruction_recommenda5</developerName>
         <language>en_US</language>
-        <masterLabel>instruction_thealertss5</masterLabel>
+        <masterLabel>instruction_recommenda5</masterLabel>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Recommendations should be based on using Salesforce data</description>
-        <developerName>instruction_recommenda6</developerName>
+        <description>The alerts should be from a first person perspective and identify specific numbers (e.g. &quot;Let me know when we get to 15K in sales&quot;)</description>
+        <developerName>instruction_thealertss6</developerName>
         <language>en_US</language>
-        <masterLabel>instruction_recommenda6</masterLabel>
+        <masterLabel>instruction_thealertss6</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Do not trigger the create recommended alert action if no recommendation has not been made to the user</description>
+        <developerName>instruction_donottrigg7</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_donottrigg7</masterLabel>
     </genAiPluginInstructions>
     <language>en_US</language>
     <masterLabel>Alert Recommendation Based on Objective</masterLabel>
