@@ -105,7 +105,7 @@ public with sharing class CreateAlertAction {
                 CreateAlertResponse response = new CreateAlertResponse();
                 String link = URL.getOrgDomainUrl().toExternalForm() + '/'+ alert.Id;
                 response.alertId = alert.Id;
-                response.message = '\uD83D\uDD14 <a href="'+link+'" target="_blank">View Alert</a>';
+                response.message = '\uD83D\uDD14 <a href="'+link+'" target="_blank">'+alert.Trigger__c+'</a>';
                 responses.add(response);
             } catch (Exception e) {
                 // Handle failure and send back error if necessary
